@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; //React hooks for managing state and side effects.
+import { useEffect, useState } from "react";
 import { TCard } from "../../Types/TCard";
 import { Button, Card, Pagination } from "flowbite-react";
 import { FaPhoneAlt, FaHeart } from "react-icons/fa";
@@ -32,7 +32,6 @@ const FavoriteCards = () => {
   const { onPageChange, currentInUse, totalPages, currentPage } =
     UsePagination(searchFavoriteCards);
 
-  /* Calls getCardsData when the component mounts (for instance when it first loads). */
   useEffect(() => {
     getCardsData();
   }, []);
@@ -128,7 +127,6 @@ const FavoriteCards = () => {
       </main>
       <div className="mt-4 flex justify-center">
         {isMobile ? (
-          // For mobile: only show previous and next buttons
           <div className="flex">
             <Button
               gradientMonochrome="cyan"
@@ -147,7 +145,6 @@ const FavoriteCards = () => {
             </Button>
           </div>
         ) : (
-          // For desktop: show full pagination
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

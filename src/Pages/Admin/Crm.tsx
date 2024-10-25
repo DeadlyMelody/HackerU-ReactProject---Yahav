@@ -9,10 +9,8 @@ import { useSelector } from "react-redux";
 import { TRootState } from "../../Store/BigPie";
 
 const Crm = () => {
-  //users is where the fetched data is stored for rendering
   const [users, setUsers] = useState<TUser[]>([]);
 
-  //state for the selected user, we need it because we need to hold the user details in it
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -33,7 +31,6 @@ const Crm = () => {
     (state: TRootState) => state.SearchSlice.search,
   );
 
-  /* Filters the cards to include only those that match the search word. */
   const searchUsers = () => {
     return users.filter(
       (item: TUser) =>
@@ -64,7 +61,6 @@ const Crm = () => {
     }
   };
 
-  //patch request - to edit the auth level
   const editAuthLevel = async (user: TUser) => {
     try {
       await Swal.fire({
@@ -230,11 +226,6 @@ const Crm = () => {
             </table>
           </div>
         </main>
-        <img
-          src="/banner.webp"
-          alt="banner pic with flowers"
-          className="m-auto"
-        />
 
         {/*-------------------user details----------------*/}
         {selectedUser && (
@@ -295,7 +286,6 @@ const Crm = () => {
         )}
         <div className="mt-4 flex justify-center">
           {isMobile ? (
-            // For mobile: only show previous and next buttons
             <div className="flex">
               <Button
                 gradientMonochrome="cyan"
@@ -314,7 +304,6 @@ const Crm = () => {
               </Button>
             </div>
           ) : (
-            // For desktop: show full pagination
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

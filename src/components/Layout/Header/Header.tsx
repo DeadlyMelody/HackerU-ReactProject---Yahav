@@ -92,7 +92,7 @@ const Header = () => {
             as={Link}
             to="/home"
             active={location === "/home"}
-            className="ml-2"
+            className={`ml-2 ${location === "/home" ? "text-blue-500" : "text-white"} hover:text-blue-100`}
           >
             Home
           </Navbar.Link>
@@ -102,16 +102,19 @@ const Header = () => {
               as={Link}
               to="/favoritecards"
               active={location === "/favoritecards"}
+              className={`ml-2 ${location === "/favoritecards" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
             >
               Fav Cards
             </Navbar.Link>
           )}
+
           {/* ---------------Links to the MyCards Page------------------ */}
           {isLoggedIn?.isBusiness && (
             <Navbar.Link
               as={Link}
               to="/mycards"
               active={location === "/mycards"}
+              className={`ml-2 ${location === "/mycards" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
             >
               My Cards
             </Navbar.Link>
@@ -121,7 +124,7 @@ const Header = () => {
             as={Link}
             to="/about"
             active={location === "/about" || location === ""}
-            className="ml-2"
+            className={`ml-2 ${location === "/about" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
           >
             About
           </Navbar.Link>
@@ -132,18 +135,27 @@ const Header = () => {
                 as={Link}
                 to="/signup"
                 active={location === "/signup"}
+                className={`ml-2 ${location === "/signup" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
               >
                 Sign Up
               </Navbar.Link>
               {/* ---------------Links to the Login Page------------------ */}
-              <Navbar.Link as={Link} to="/login" active={location === "/login"}>
+              <Navbar.Link
+                as={Link}
+                to="/login"
+                active={location === "/login"}
+                className={`ml-2 ${location === "/login" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
+              >
                 Login
               </Navbar.Link>
             </>
           ) : (
             <>
               {/* ---------------Logs the user out------------------ */}
-              <Navbar.Link className="cursor-pointer" onClick={handleLogout}>
+              <Navbar.Link
+                onClick={handleLogout}
+                className={`ml-2 ${location === "/logout" ? "text-blue-200" : "text-white"} cursor-pointer hover:text-blue-300`}
+              >
                 LogOut
               </Navbar.Link>
               {/* ---------------Links to the Profile Page------------------ */}
@@ -152,6 +164,7 @@ const Header = () => {
                   as={Link}
                   to="/profile"
                   active={location === "/profile"}
+                  className={`ml-2 ${location === "/profile" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
                 >
                   Profile
                 </Navbar.Link>
@@ -160,7 +173,12 @@ const Header = () => {
           )}
           {/* ---------------Links to the CRM Page------------------ */}
           {isLoggedIn?.isAdmin && (
-            <Navbar.Link as={Link} to="/crm" active={location === "/crm"}>
+            <Navbar.Link
+              as={Link}
+              to="/crm"
+              active={location === "/crm"}
+              className={`ml-2 ${location === "/crm" ? "text-blue-500" : "text-white"} hover:text-blue-300`}
+            >
               CRM
             </Navbar.Link>
           )}

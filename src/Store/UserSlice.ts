@@ -6,7 +6,6 @@ const initialState = {
   user: null as TUser | null,
 };
 
-// Load user from localStorage on init (if exists)
 const loadUserFromLocalStorage = () => {
   const storedUser = localStorage.getItem("user");
   if (storedUser) {
@@ -20,18 +19,18 @@ const loadUserFromLocalStorage = () => {
 
 const userSlice = createSlice({
   name: "user",
-  initialState: loadUserFromLocalStorage(), // Load the user state on app start
+  initialState: loadUserFromLocalStorage(),
   reducers: {
     login: (state: TUserState, action: PayloadAction<TUser>) => {
       state.isLoggedIn = true;
       state.user = action.payload;
-      // Save user to localStorage
+
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
     logout: (state: TUserState) => {
       state.isLoggedIn = false;
       state.user = null;
-      // Remove user from localStorage
+
       localStorage.removeItem("user");
     },
   },

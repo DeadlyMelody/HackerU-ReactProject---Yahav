@@ -12,7 +12,6 @@ const Profile = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
-  //the get data function is so we can update the login details redux for the user and we can see the changes visually
   const getData = async () => {
     try {
       axios.defaults.headers.common["x-auth-token"] =
@@ -96,7 +95,7 @@ const Profile = () => {
 
             <Button
               // size={20}
-              className="m-auto bg-pink-400 dark:border-black dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-800"
+              className="m-auto bg-cyan-400 dark:border-black dark:bg-gradient-to-r dark:from-gray-700 dark:to-gray-800"
               onClick={() => nav("/edit-user/" + user?._id)}
             >
               {" "}

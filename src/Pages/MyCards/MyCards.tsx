@@ -137,7 +137,6 @@ const MyCards = () => {
                       size={20}
                       className="m-auto cursor-pointer"
                       onClick={() => nav("/edit-card/" + item._id)}
-                      //navigate to Update Card Details
                     />
 
                     <BsTrash3Fill
@@ -158,7 +157,6 @@ const MyCards = () => {
       </main>
       <div className="mt-4 flex justify-center">
         {isMobile ? (
-          // For mobile: only show previous and next buttons
           <div className="flex">
             <Button
               gradientMonochrome="cyan"
@@ -177,7 +175,6 @@ const MyCards = () => {
             </Button>
           </div>
         ) : (
-          // For desktop: show full pagination
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
