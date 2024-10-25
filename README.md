@@ -30,7 +30,8 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/
 jsx-runtime` to the `extends` list
 
------------------------------------------------------------------------------------------------------------------------------------------
+---
+
 Card Project
 
 Overview
@@ -63,7 +64,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone <https://github.com/Hanaady98/react-project>
+git clone <https://github.com/DeadlyMelody/HackerU-ReactProject---Yahav>
 cd react-project
 Install dependencies:
 npm install
@@ -76,4 +77,3 @@ Flowbite
 Axios (for API requests)
 Redux (for state management)
 SweetAlert2 (for notifications)
-
