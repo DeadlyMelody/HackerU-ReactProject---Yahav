@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { TUser } from "../../Types/TUser";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Button, Card, Pagination } from "flowbite-react";
+import { Button, Card, Pagination, Spinner } from "flowbite-react";
 import TitleSection from "../../components/Shared/TitleSection/TitleSection";
 import UsePagination from "../../Hooks/UsePagination";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ const Crm = () => {
   const [selectedUser, setSelectedUser] = useState<TUser | null>(null);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,20 +31,25 @@ const Crm = () => {
   const searchWord = useSelector(
     (state: TRootState) => state.SearchSlice.search,
   );
-
   const searchUsers = () => {
-    return users.filter(
-      (item: TUser) =>
-        item.name.first.includes(searchWord) ||
-        item.name.middle.includes(searchWord) ||
-        item.name.last.includes(searchWord),
-    );
+    const searchParts = searchWord.toLowerCase().split(" ");
+
+    return users.filter((item: TUser) => {
+      const fullName =
+        `${item.name.first} ${item.name.middle} ${item.name.last}`.toLowerCase();
+      return (
+        searchParts.every((part) => fullName.includes(part)) ||
+        item.phone.includes(searchWord) ||
+        item.email.includes(searchWord)
+      );
+    });
   };
   const { onPageChange, currentInUse, totalPages, currentPage } =
     UsePagination(searchUsers);
 
   const getAllUsers = async () => {
     try {
+      setLoading(true);
       axios.defaults.headers.common["x-auth-token"] =
         localStorage.getItem("token");
       const response = await axios.get(
@@ -58,6 +64,8 @@ const Crm = () => {
         timer: 2000,
         showCloseButton: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -176,54 +184,64 @@ const Crm = () => {
 
         <main className="flex justify-center gap-3">
           <div className="mt-20 max-w-[90vw] overflow-x-auto text-center">
-            <table className="w-full table-auto">
-              <thead className="bg-slate-200 dark:bg-gray-600 ">
-                <tr>
-                  <th className="px-4 py-2 text-gray-800 dark:text-white ">
-                    Name
-                  </th>
-                  <th className="px-4 py-2 text-gray-800 dark:text-white">
-                    Email
-                  </th>
-                  <th className="px-4 py-2 text-gray-800 dark:text-white">
-                    Phone
-                  </th>
-                  <th className="px-4 py-2 text-gray-800 dark:text-white">
-                    Authorization Level
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentInUse.map((item: TUser) => (
-                  <tr
-                    key={item._id}
-                    className="cursor-pointer divide-y odd:bg-blue-400 even:bg-cyan-400 hover:bg-slate-400 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:hover:bg-gray-600"
-                    onClick={() => setSelectedUser(item)}
-                  >
-                    <td className="border px-4 py-2 text-gray-800 dark:text-white">
-                      {item.name.first +
-                        " " +
-                        item.name.middle +
-                        " " +
-                        item.name.last}
-                    </td>
-                    <td className="border px-4 py-2 text-gray-800 dark:text-white">
-                      {item.email}
-                    </td>
-                    <td className="border px-4 py-2 text-gray-800 dark:text-white">
-                      {item.phone}
-                    </td>
-                    <td className="border px-4 py-2 text-gray-800 dark:text-white">
-                      {item.isAdmin
-                        ? "Admin"
-                        : item.isBusiness
-                          ? "Business"
-                          : "Personal"}
-                    </td>
+            {loading ? (
+              <div className="flex min-h-screen flex-col items-center justify-center">
+                <Spinner size="xl" className="mb-4" />
+                <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                  Loading...
+                </p>
+              </div>
+            ) : (
+              <table className="w-full table-auto">
+                <thead className="bg-slate-200 dark:bg-gray-600 ">
+                  <tr>
+                    <th className="px-4 py-2 text-gray-800 dark:text-white ">
+                      Name
+                    </th>
+                    <th className="px-4 py-2 text-gray-800 dark:text-white">
+                      Email
+                    </th>
+                    <th className="px-4 py-2 text-gray-800 dark:text-white">
+                      Phone
+                    </th>
+                    <th className="px-4 py-2 text-gray-800 dark:text-white">
+                      Authorization Level
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentInUse.map((item: TUser) => (
+                    <tr
+                      key={item._id}
+                      className="cursor-pointer divide-y odd:bg-blue-400 even:bg-cyan-400 hover:bg-slate-400 odd:dark:bg-gray-800 even:dark:bg-gray-700 dark:hover:bg-gray-600"
+                      onClick={() => setSelectedUser(item)}
+                    >
+                      <td className="border px-4 py-2 text-gray-800 dark:text-white">
+                        {item.name.first +
+                          " " +
+                          item.name.middle +
+                          " " +
+                          item.name.last}
+                      </td>
+                      <td className="border px-4 py-2 text-gray-800 dark:text-white">
+                        {item.email}
+                      </td>
+                      <td className="border px-4 py-2 text-gray-800 dark:text-white">
+                        {item.phone}
+                      </td>
+                      <td className="border px-4 py-2 text-gray-800 dark:text-white">
+                        {item.isAdmin
+                          ? "Admin"
+                          : item.isBusiness
+                            ? "Business"
+                            : "Personal"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            ;
           </div>
         </main>
 
